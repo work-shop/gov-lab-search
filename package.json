@@ -29,6 +29,8 @@
   },
   "dependencies": {
     "lunr": "^0.7.2",
+    "moment": "^2.17.1",
+    "spelling": "^1.0.0",
     "striptags": "^2.1.1"
   }
 }
