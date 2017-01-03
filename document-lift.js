@@ -52,7 +52,7 @@ module.exports = function( data ) {
         var funders = project.funders.map( resolveWith( interpolator ) );
         var team_members = project.team_members.map( resolveWith( interpolator ) );
         var region = resolveWith( interpolator )( project.region );
-
+        var image = (typeof project.images[0] !== 'undefined') ? project.images[0].resize_url : undefined;
 
         return {
            type: project._type,
@@ -61,6 +61,7 @@ module.exports = function( data ) {
            funders: funders,
            team_members: team_members,
            region: region,
+           image: image,
            title: project.name,
            shortname: project.shortname,
            summary: project.summary,
@@ -85,6 +86,7 @@ module.exports = function( data ) {
            isDraft: news.isDraft,
            slug: ['', news.slug].join('/'),
            author: author,
+           date: news.news_date,
            title: news.name,
            summary: news.summary,
            body: striptags( news.story ),
