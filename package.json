@@ -1,0 +1,34 @@
+{
+  "name": "gov-lab-search",
+  "version": "1.0.0",
+  "description": "Search module for the GOV/LAB website.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "watchify index.js -o ../gov-lab-site/static/javascript/search-bundle.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/work-shop/gov-lab-seach.git"
+  },
+  "keywords": [
+    "search",
+    "gov-lab",
+    "webhook",
+    "client-side",
+    "browserify"
+  ],
+  "author": "nicschumann",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/work-shop/gov-lab-seach/issues"
+  },
+  "homepage": "https://github.com/work-shop/gov-lab-seach#readme",
+  "devDependencies": {
+    "watchify": "^3.8.0"
+  },
+  "dependencies": {
+    "lunr": "^0.7.2",
+    "striptags": "^2.1.1"
+  }
+}
