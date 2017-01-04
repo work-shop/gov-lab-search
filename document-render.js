@@ -10,6 +10,7 @@ var moment = require('moment');
 module.exports = function( search ) {
     var queryInput = $( '#search-input' );
     var queryOutput = $('#results');
+    var queryResultCount = $('#result-count');
     var cutoff = 2;
 
     var renderHeader = {
@@ -70,12 +71,34 @@ module.exports = function( search ) {
         }
     };
 
+    function describe( count, type ) {
+        switch ( type ) {
+            case "projects":
+                return (count === 1) ? "Project" : "Projects";
+
+            case "news":
+                return (count === 1) ? "Update" : "Updates";
+
+            case "output":
+                return (count === 1) ? "Research Product" : "Research Products";
+
+            default:
+                throw new Error('Search: Unrecognized Result Type (' + type + ').' );
+
+        }
+    }
+
     function updateResultSet( results ) {
 
         queryOutput.children().remove();
 
         ['projects', 'news', 'output'].forEach( function( type ) {
             if ( typeof results[ type ] !== "undefined" ) {
+                var resultCount = results[ type ].length;
+
+                queryResultCount.find( ['.', type, '-count' ].join('') ).addClass('bold').text( resultCount );
+                queryResultCount.find( ['.', type, '-postfix' ].join('') ).addClass('bold').text( describe( resultCount, type ) );
+
                 results[ type ].forEach( function( result, i ) {
 
                     if ( i === 0 ) { queryOutput.append( renderHeader[ type ]() ); }
@@ -83,6 +106,12 @@ module.exports = function( search ) {
                     queryOutput.append( render[ type ]( result ) );
 
                 });
+
+            } else {
+
+                queryResultCount.find( ['.', type, '-count' ].join('') ).removeClass('bold').text( 0 );
+                queryResultCount.find( ['.', type, '-postfix' ].join('') ).removeClass('bold').text( describe( 0, type ) );
+
             }
 
         });
