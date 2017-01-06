@@ -62,13 +62,19 @@ module.exports = function( data ) {
            team_members: team_members,
            region: region,
            image: image,
+           timeline: project.project_timeline,
            title: project.name,
+           date: project._sort_last_updated,
            shortname: project.shortname,
            summary: project.summary,
            body: striptags( project.body ),
            tags: funders.concat( team_members ).concat( [ region ] )
                  .filter( function ( o ) { return typeof o !== 'undefined'; } )
-                 .join(' ')
+                 .join(' '),
+            sorting: {
+                updated: project._sort_last_updated,
+                published: project._sort_publish_date,
+            }
         };
     }
 
@@ -80,6 +86,7 @@ module.exports = function( data ) {
         var interpolator = function( candidate ) { return candidate.name; };
 
         var author = resolveWith( interpolator )( news.author );
+        var image = (typeof news.cover_image !== 'undefined') ? news.cover_image.resize_url : undefined;
 
         return {
            type: news._type,
@@ -89,8 +96,13 @@ module.exports = function( data ) {
            date: news.news_date,
            title: news.name,
            summary: news.summary,
+           image: image,
            body: striptags( news.story ),
-           tags: author
+           tags: author,
+           sorting: {
+               updated: news._sort_last_updated,
+               published: news._sort_publish_date,
+           }
         };
     }
 
@@ -103,6 +115,7 @@ module.exports = function( data ) {
 
         var authors = research.authors.map( resolveWith( interpolator ) );
         var outputType = resolveWith( interpolator)( research.output_type );
+        var image = (typeof research.cover_image !== 'undefined') ? research.cover_image.resize_url : undefined;
 
         return {
            type: research._type,
@@ -112,8 +125,14 @@ module.exports = function( data ) {
            outputType: outputType,
            title: research.name,
            summary: research.summary,
+           image: image,
+           date: research.publication_date || research.publish_date,
            body: striptags( research.description ),
-           tags: authors.concat([ outputType ]).join(' ')
+           tags: authors.concat([ outputType ]).join(' '),
+           sorting: {
+               updated: research._sort_last_updated,
+               published: research._sort_publish_date,
+           }
         };
     }
 
