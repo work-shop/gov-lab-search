@@ -3,19 +3,40 @@
 console.log('[search] index module required.');
 
 var lunr = require('lunr');
+var moment = require('moment');
 
 module.exports = function( documents ) {
 
+    function reverseChronological( items ) {
+        return items.sort( function( a,b ) {
+            var aDate = moment( a.date ), bDate = moment( b.date );
+
+            return bDate.unix() - aDate.unix();
+
+        });
+    }
+
+    /**
+     * The resolveDocuments routine takes a set of result indices and scores
+     * from ```lunr``` and reconstitutes them as the original documents.
+     */
     function resolveDocuments( queryScores ) {
         return queryScores.map( function( score ) {
             return documents[ score.ref ];
         });
     }
 
-    function partition( relation, items, postprocessor ) {
+    /**
+     * The partition function divides the result set of a given query into
+     * a user-defined relation, optionally preprocessor the results according
+     * to a user-defined sorting routine.
+     */
+    function partition( relation, items, preprocessor ) {
         var result = {};
 
-        items.forEach( function( item ) {
+        preprocessor = preprocessor || function( x ) { return x; };
+
+        preprocessor( items ).forEach( function( item ) {
             if ( typeof result[ item[ relation ] ] === "undefined" ) {
 
                 result[ item[relation] ] = [ item ];
@@ -31,6 +52,11 @@ module.exports = function( documents ) {
         return result;
     }
 
+    /**
+     * The query manager class implements a query method
+     * which executes a query against the set of documents
+     * and returns a sorted and partitioned set for rendering.
+     */
     function QueryManager() {
 
 
@@ -52,7 +78,7 @@ module.exports = function( documents ) {
 
         self.query = function( searchterms ) {
 
-            return partition( 'type', resolveDocuments( index.search( searchterms ) ) );
+            return partition( 'type', resolveDocuments( index.search( searchterms ) ), reverseChronological );
 
         };
 
