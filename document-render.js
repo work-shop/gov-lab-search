@@ -14,11 +14,13 @@ module.exports = function( search ) {
     var queryResultCount = $('#result-count');
     var cutoff = 2;
 
+    var typeOrder = ['projects', 'news', 'output'];
+
     /**
      * This object contains header rendering methods divided by type
      *
      */
-    var renderHeader = require('./template-headers.js');
+    //var renderHeader = require('./template-headers.js');
 
     var render = require('./template-cards.js');
 
@@ -43,20 +45,14 @@ module.exports = function( search ) {
 
         queryOutput.children().remove();
 
-        ['projects', 'news', 'output'].forEach( function( type ) {
+        typeOrder.forEach( function( type ) {
             if ( typeof results[ type ] !== "undefined" ) {
                 var resultCount = results[ type ].length;
 
                 queryResultCount.find( ['.', type, '-count' ].join('') ).addClass('bold').addClass('brand').text( resultCount );
                 queryResultCount.find( ['.', type, '-postfix' ].join('') ).addClass('bold').text( describe( resultCount, type ) );
 
-                results[ type ].forEach( function( result, i ) {
-
-                    if ( i === 0 ) {
-                        var header = renderHeader[ type ]()
-                        queryOutput.append( header );
-                        header.removeClass('invisible');
-                    }
+                results[ type ].forEach( function( result ) {
 
                     var renderedResult = render[ type ]( result );
 
