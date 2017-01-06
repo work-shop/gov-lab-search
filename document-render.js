@@ -14,7 +14,7 @@ module.exports = function( search ) {
     var queryResultCount = $('#result-count');
     var cutoff = 2;
 
-    var typeOrder = ['projects', 'news', 'output'];
+    var typeOrder = ['projects', 'output', 'news' ];
 
     /**
      * This object contains header rendering methods divided by type
