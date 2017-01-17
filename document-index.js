@@ -22,6 +22,7 @@ module.exports = function( documents ) {
      */
     function resolveDocuments( queryScores ) {
         return queryScores.map( function( score ) {
+            documents[ score.ref ].score = score.score * 10;
             return documents[ score.ref ];
         });
     }
@@ -37,6 +38,11 @@ module.exports = function( documents ) {
         preprocessor = preprocessor || function( x ) { return x; };
 
         preprocessor( items ).forEach( function( item ) {
+            console.log( item.title );
+            console.log( item.date );
+            console.log( item.score );
+            console.log( '===\n' );
+
             if ( typeof result[ item[ relation ] ] === "undefined" ) {
 
                 result[ item[relation] ] = [ item ];
