@@ -1,5 +1,6 @@
 console.log('[search] search module required.');
 
+var config = require('./package.json').names;
 var lift = require('./document-lift.js');
 var index = require('./document-index.js');
 var render = require('./document-render.js');
@@ -11,4 +12,4 @@ var render = require('./document-render.js');
 var Search = index( lift( data ) )();
 
 
-render( Search );
+render( Search, config );

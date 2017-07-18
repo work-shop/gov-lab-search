@@ -19,7 +19,7 @@ module.exports = {
     // </li>
 
 
-    "projects": function( result ) {
+    "projects": function( result, names ) {
         if ( typeof result.image !== "undefined" ) {
             return $('<li>').attr('class', "invisible p0 col-xs-12 project-result search-result mb3")
                    .append( $('<a>').attr('href', result.slug).attr('class', 'link')
@@ -27,7 +27,7 @@ module.exports = {
                                 .append( $('<div>').attr('class', 'related-image-block').attr('style', ['background-image:url(\'', [result.image,'=w300-h200'].join(''), '\');'].join('') ) )
                             )
                             .append( $('<div>').attr('class', 'col-sm-10')
-                                     .append( $('<span>').attr('class', "h6 uppercase output-type bold mt0").text( "Project" ) )
+                                     .append( $('<span>').attr('class', "h6 uppercase output-type bold mt0").text( names.projects.singular ) )
                                      .append( $('<span>').attr('class', "h6 bold uppercase gray mt0").text( ', ' + result.timeline ) )
                                      .append( $('<h4>').attr('class', "bold mt0").text( result.title ) )
                                      .append( $('<p>').attr('class', "project-description small hidden-xs").text( result.summary ) )
@@ -37,7 +37,7 @@ module.exports = {
         } else {
             return $('<li>').attr('class', "invisible p0 col-xs-12 project-result search-result mb3")
                    .append( $('<a>').attr('href', result.slug).attr('class', 'link')
-                            .append( $('<h6>').attr('class', "output-type uppercase bold brand mt0").text( "Project" ) )
+                            .append( $('<h6>').attr('class', "output-type uppercase bold brand mt0").text( names.projects.singular ) )
                             .append( $('<div>').attr('class', 'col-sm-12')
                                      .append( $('<h6>').attr('class', "bold uppercase mt0").text( ', ' + result.timeline ) )
                                      .append( $('<h4>').attr('class', "bold mt0").text( result.title ) )
@@ -47,7 +47,7 @@ module.exports = {
         }
     },
 
-    "news": function( result ) {
+    "news": function( result, names ) {
 
         if ( typeof result.image !== "undefined" ) {
             return $('<li>').attr('class', "invisible p0 col-xs-12 project-result search-result mb3")
@@ -56,7 +56,7 @@ module.exports = {
                             .append( $('<div>').attr('class', 'related-image-block').attr('style', ['background-image:url(\'', [result.image,'=w300-h200'].join(''), '\');'].join('') ) )
                         )
                         .append( $('<div>').attr('class', 'col-sm-10 col-xs-12')
-                                 .append( $('<span>').attr('class', "h6 output-type uppercase bold mt0").text( "Update" ) )
+                                 .append( $('<span>').attr('class', "h6 output-type uppercase bold mt0").text( names.news.singular ) )
                                  .append( $('<span>').attr('class', "h6 gray bold uppercase mt0").text( ', ' + moment( result.date ).format('MMMM Y') ) )
                                  .append( $('<h4>').attr('class', "bold mt0").text( result.title ) )
                                  .append( $('<p>').attr('class', "project-description small hidden-xs").text( result.summary ) )
@@ -67,7 +67,7 @@ module.exports = {
         } else {
             return $('<li>').attr('class', "invisible p0 col-xs-12 project-result search-result mb3")
                     .append( $('<a>').attr('href', result.slug).attr('class', 'link')
-                        .append( $('<h6>').attr('class', "col-sm-12 output-type bold brand mt0").text( "Update" ) )
+                        .append( $('<h6>').attr('class', "col-sm-12 output-type bold brand mt0").text( names.news.singular ) )
                         .append( $('<div>').attr('class', 'col-sm-12 col-xs-12')
                                  .append( $('<h6>').attr('class', "bold uppercase mt0").text( moment( result.date ).format('MMMM Y') ) )
                                  .append( $('<h4>').attr('class', "bold mt0").text( result.title ) )
@@ -79,7 +79,7 @@ module.exports = {
         }
     },
 
-    "output": function( result ) {
+    "output": function( result, names ) {
         if ( typeof result.image !== "undefined" ) {
             return $('<li>').attr('class', "invisible p0 col-xs-12 project-result search-result mb3")
                    .append( $('<a>').attr('href', result.slug).attr('class', 'link')

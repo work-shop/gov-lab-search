@@ -32,5 +32,19 @@
     "moment": "^2.17.1",
     "spelling": "^1.0.0",
     "striptags": "^2.1.1"
+  },
+  "names": {
+      "projects": {
+          "singular": "Research Project",
+          "plural": "Research Projects"
+      },
+      "output": {
+          "singular": "Resource",
+          "plural": "Resources"
+      },
+      "news": {
+          "singular": "Update",
+          "plural": "Updates"
+      }
   }
 }

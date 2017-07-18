@@ -8,7 +8,7 @@ var moment = require('moment');
  * type, and render these results in the search window.
  *
  */
-module.exports = function( search ) {
+module.exports = function( search, names ) {
     var queryInput = $( '#search-input' );
     var queryOutput = $('#results');
     var queryResultCount = $('#result-count');
@@ -27,13 +27,13 @@ module.exports = function( search ) {
     function describe( count, type ) {
         switch ( type ) {
             case "projects":
-                return (count === 1) ? "Project" : "Projects";
+                return (count === 1) ? names.projects.singular : names.projects.plural;
 
             case "news":
-                return (count === 1) ? "Update" : "Updates";
+                return (count === 1) ? names.news.singular : names.news.plural;
 
             case "output":
-                return (count === 1) ? "Research Result" : "Research Results";
+                return (count === 1) ? names.output.singular : names.output.plural;
 
             default:
                 throw new Error('Search: Unrecognized Result Type (' + type + ').' );
@@ -54,7 +54,7 @@ module.exports = function( search ) {
 
                 results[ type ].forEach( function( result ) {
 
-                    var renderedResult = render[ type ]( result );
+                    var renderedResult = render[ type ]( result, names );
 
                     queryOutput.append( renderedResult );
                     renderedResult.removeClass('invisible');
