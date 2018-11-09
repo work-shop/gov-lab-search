@@ -24,7 +24,7 @@ module.exports = function( data ) {
 
     function resolveWith( valueInterpolator ) {
         return function( identifier ) {
-            if ( identifier !== "undefined undefined" ) {
+            if ( identifier !== "undefined undefined" && typeof identifier !== 'undefined' ) {
 
                 identifier = identifier.split(' ');
                 var type = identifier[0].trim(), id = identifier[1].trim();

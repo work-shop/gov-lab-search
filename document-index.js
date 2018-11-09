@@ -38,10 +38,10 @@ module.exports = function( documents ) {
         preprocessor = preprocessor || function( x ) { return x; };
 
         preprocessor( items ).forEach( function( item ) {
-            console.log( item.title );
-            console.log( item.date );
-            console.log( item.score );
-            console.log( '===\n' );
+            // console.log( item.title );
+            // console.log( item.date );
+            // console.log( item.score );
+            // console.log( '===\n' );
 
             if ( typeof result[ item[ relation ] ] === "undefined" ) {
 

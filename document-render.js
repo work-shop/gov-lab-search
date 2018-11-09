@@ -16,6 +16,8 @@ module.exports = function( search, names ) {
 
     var typeOrder = ['projects', 'output', 'news' ];
 
+    var threshold_score = .05;
+
     /**
      * This object contains header rendering methods divided by type
      *
@@ -45,6 +47,8 @@ module.exports = function( search, names ) {
 
         queryOutput.children().remove();
 
+        console.log( results );
+
         typeOrder.forEach( function( type ) {
             if ( typeof results[ type ] !== "undefined" ) {
                 var resultCount = results[ type ].length;
@@ -72,12 +76,46 @@ module.exports = function( search, names ) {
 
     }
 
+
+    function updateResultSetReverseChronological( results ) {
+
+        queryOutput.children().remove();
+
+        var merged = typeOrder
+                        .map( function( t ) { return results[t]; })
+                        .reduce( function( a,b ) { return a.concat( b ); }, [])
+                        .filter( function( a ) { return a.score >= threshold_score; });
+
+        merged.sort( function( a,b ) {
+            return Math.sign( b.sorting.published - a.sorting.published );
+        });
+
+        typeOrder.forEach( function( type ) {
+            var resultCount = results[ type ].length;
+
+            queryResultCount.find( ['.', type, '-count' ].join('') ).addClass('bold').addClass('brand').text( resultCount );
+            queryResultCount.find( ['.', type, '-postfix' ].join('') ).addClass('bold').text( describe( resultCount, type ) );
+
+        });
+
+        merged.forEach( function( result ) {
+            var renderedResult = render[ result.type ]( result, names );
+
+            queryOutput.append( renderedResult );
+            renderedResult.removeClass('invisible');
+
+        });
+
+        console.log( merged );
+
+    }
+
     queryInput.on('keyup', function( ) {
         var val = queryInput.val();
 
         if ( val.length > cutoff ) {
 
-            updateResultSet( search.query( val ) );
+            updateResultSetReverseChronological( search.query( val ) );
 
         }
 
